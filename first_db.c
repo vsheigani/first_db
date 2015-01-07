@@ -14,8 +14,8 @@
 #include "update_data.h"
 
 
-static char **items;
-static int count;
+extern char **items;
+extern int count;
 sqlite3 *db;
 int  rc;
 

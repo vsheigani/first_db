@@ -3,7 +3,8 @@
 #include "stdlib.h"
 #include <stdbool.h>
 
-
+ char **items;
+ int count;
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
 {

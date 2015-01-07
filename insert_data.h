@@ -5,8 +5,7 @@
 #include "callbackh.h"
 
 
-static char **items;
-static int count;
+
 
 bool isInt(char *string){
     char *endp;
