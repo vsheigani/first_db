@@ -4,8 +4,9 @@
 #include <stdbool.h>
 #include "callbackh.h"
 
+// This header file created for inserting data into tables
 
-
+// This func checks if the insterted data is integer or not
 
 bool isInt(char *string){
     char *endp;
@@ -18,26 +19,25 @@ bool isInt(char *string){
     return false;
 }
 
-void insert_data(char table_name2[],int rc, sqlite3 *db)
+
+void insert_data(char table_name[],int rc, sqlite3 *db)
    {
-  //  char types[100][5];
     int k;
- //   sqlite3 *db;
+   char sql_string[600];
+   char sql_string2[600];
    char *zErrMsg = 0;
- //  int  rc;
-   char sql_string[700];
-   char sql_p1[300],sql_p2[300];
+   char *sql_2;
+   char *sql;
 
-   char sql_string2[600]; 
-   sprintf(sql_string2,"SELECT * FROM %s ",table_name2);
 
-   char *sql2=sql_string2;
-   printf("%s", sql_string2);
+   sprintf(sql_string2,"SELECT * FROM %s ",table_name);
 
-     rc = sqlite3_exec(db, sql2, callback_find, 0, &zErrMsg);
+   sql_2 = sql_string2;
+   printf("%s\n", sql_string2);
+
+     rc = sqlite3_exec(db, sql_2, callback_find, 0, &zErrMsg);
    if( rc != SQLITE_OK )
    {
-      fprintf(stderr, "Table Not Found\n");
       fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }
@@ -53,7 +53,7 @@ void insert_data(char table_name2[],int rc, sqlite3 *db)
    }
 
 
-  sprintf(sql_string,"INSERT INTO %s (",table_name2);
+  sprintf(sql_string,"INSERT INTO %s (",table_name);
   for (k = 0; k < count; ++k)
   {
     strcat(sql_string,items[k]);
@@ -84,9 +84,9 @@ void insert_data(char table_name2[],int rc, sqlite3 *db)
    }
   strcat(sql_string, "); ");
 
-  char *sql= sql_string;
+  sql= sql_string;
  // k=0; count=0;
- printf("%s",sql_string);
+ //printf("%s",sql_string);
    /* Execute SQL statement */
 
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
@@ -100,5 +100,4 @@ void insert_data(char table_name2[],int rc, sqlite3 *db)
       fprintf(stdout, "Data Inserted Succefully\n");
    }
  }
- 
-   }
+} 

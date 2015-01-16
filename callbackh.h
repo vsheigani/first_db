@@ -3,8 +3,9 @@
 #include "stdlib.h"
 #include <stdbool.h>
 
- char **items;
- int count;
+    char **items;
+    int count;
+
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
 {
@@ -21,14 +22,10 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
 static int callback_find(void *NotUsed, int argc, char **argv, char **azColName)
 
-{
-   int i;
-
-   for(i=0; i<argc; i++)
-    {
+{         
+   
         items=azColName;
         count=argc;
-    }
 
-   return 0;
+        return 0;
 }

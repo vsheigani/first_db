@@ -91,14 +91,14 @@ void refresh_menu(){
 
    system("clear");
    setBufferedInput(false);
-   printf("\033[12;40H%-20s","Hints:");
-   printf("\033[13;40H%-20s","Press 1 For Creating or Connecting to Database: ");
-   printf("\033[14;40H%-20s","Press 2 For Creating a Table: ");
-   printf("\033[15;40H%-20s","Press 3 For Inserting data into table: ");
-   printf("\033[16;40H%-20s","Press 4 For Delete data from the table: ");
-   printf("\033[17;40H%-20s","Press 5 For Update your table data: ");
-   printf("\033[18;40H%-20s","Press 6 For Select your table data: ");
-   printf("\033[19;40H%-20s","Press Q For Quit: ");
+   printf("\033[2;7H%-20s","Hints:");
+   printf("\033[3;7H%-20s","Press 1 For Creating or Connecting to Database: ");
+   printf("\033[4;7H%-20s","Press 2 For Creating a Table: ");
+   printf("\033[5;7H%-20s","Press 3 For Inserting data into table: ");
+   printf("\033[6;7H%-20s","Press 4 For Delete data from the table: ");
+   printf("\033[7;7H%-20s","Press 5 For Update your table data: ");
+   printf("\033[8;7H%-20s","Press 6 For Select your table data: ");
+   printf("\033[9;7H%-20s","Press Q For Quit: ");
 
 }
 
@@ -109,7 +109,7 @@ int main(int argc, char const *argv[])
       int status=0;
       char getkey;
       char table_name[100];
-      char table_name2[100];
+   //   char table_name2[100];
       char db_name[120];
    
 
@@ -153,8 +153,8 @@ switch(getkey){
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of table: ");
-      scanf("%s",table_name2);
-      insert_data(table_name2,rc,db);
+      scanf("%s",table_name);
+      insert_data(table_name,rc,db);
       getchar();
       getchar();
       refresh_menu();
@@ -165,8 +165,8 @@ switch(getkey){
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of table that you want to delete data: ");
-      scanf("%s",table_name2);
-      delete_data(table_name2,rc,db);
+      scanf("%s",table_name);
+      delete_data(table_name,rc,db);
       getchar();
       getchar();
       refresh_menu();
@@ -177,8 +177,8 @@ switch(getkey){
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of database: ");
-      scanf("%s",table_name2);
-      update_data(table_name2,rc,db);
+      scanf("%s",table_name);
+      update_data(table_name,rc,db);
       getchar();
       getchar();
       refresh_menu();
@@ -189,8 +189,8 @@ switch(getkey){
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of table to select data in %s database: ", db_name);
-      scanf("%s",table_name2);
-      select_data(table_name2,rc,db);
+      scanf("%s",table_name);
+      select_data(table_name,rc,db);
       getchar();
       getchar();
       refresh_menu();
