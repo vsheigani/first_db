@@ -4,10 +4,15 @@
 #include <stdbool.h>
 #include "callbackh.h"
 
-// This header file created for inserting data into tables
+  extern char **items;
+  extern int count;
+  int rc;
+  sqlite3 *db;
 
-// This func checks if the insterted data is integer or not
+  // This header file created for inserting data into tables
+  // This func checks if the insterted data is integer or not
 
+// This Function checks if the string parameter is only integer or not
 bool isInt(char *string){
     char *endp;
     long n;
@@ -19,8 +24,8 @@ bool isInt(char *string){
     return false;
 }
 
-
-void insert_data(char table_name[],int rc, sqlite3 *db)
+//This function inserts data into table
+void insert_data(char table_name[])
    {
     int k;
    char sql_string[600];
@@ -28,7 +33,11 @@ void insert_data(char table_name[],int rc, sqlite3 *db)
    char *zErrMsg = 0;
    char *sql_2;
    char *sql;
+   char data[100][count];
 
+// This part of function execute a select command in sqlite and
+// It calls callback_find func and so it will store the table items 
+// count of items in two variables 
 
    sprintf(sql_string2,"SELECT * FROM %s ",table_name);
 
@@ -38,20 +47,22 @@ void insert_data(char table_name[],int rc, sqlite3 *db)
      rc = sqlite3_exec(db, sql_2, callback_find, 0, &zErrMsg);
    if( rc != SQLITE_OK )
    {
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
+      fprintf(stderr, "Hi: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }
 
    else{
-  char data[100][count];
+  
 
    for ( k = 0; k < count; ++k)
    {
-     printf("Please Insert data for %s: ",items[k]);
-     scanf("%s", data[k]);
-     printf("\n");
+    printf("Hi\n");
+    printf("%s", items[k]);
+    printf("Please Insert data for %s: ",items[k]);
+    scanf("%s", data[k]);
+    printf("\n");
    }
-
+// This part of code creates an sql string to insert data and execute it
 
   sprintf(sql_string,"INSERT INTO %s (",table_name);
   for (k = 0; k < count; ++k)
@@ -63,7 +74,7 @@ void insert_data(char table_name[],int rc, sqlite3 *db)
     }
 
   }
-  items=NULL;
+ 
   strcat(sql_string, ") VALUES (");
 
   for (k = 0; k < count; ++k)
@@ -83,15 +94,15 @@ void insert_data(char table_name[],int rc, sqlite3 *db)
     }
    }
   strcat(sql_string, "); ");
-
   sql= sql_string;
- // k=0; count=0;
- //printf("%s",sql_string);
+
+ 
    /* Execute SQL statement */
 
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
    if( rc != SQLITE_OK )
    {
+    printf("%s\n",sql_string );
          fprintf(stderr, "SQL error: %s\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }
@@ -99,5 +110,6 @@ void insert_data(char table_name[],int rc, sqlite3 *db)
    {
       fprintf(stdout, "Data Inserted Succefully\n");
    }
+   
  }
 } 

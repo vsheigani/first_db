@@ -14,41 +14,10 @@
 #include "update_data.h"
 
 
-extern char **items;
-extern int count;
-sqlite3 *db;
-int  rc;
 
+extern sqlite3 *db;
+extern int  rc;
 
-/*
-static int callback(void *NotUsed, int argc, char **argv, char **azColName)
-
-{
-   int i;
-
-   for(i=0; i<argc; i++)
-   	{
-      	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   	}
-
-   printf("\n");
-   return 0;
-}
-
-static int callback_find(void *NotUsed, int argc, char **argv, char **azColName)
-
-{
-   int i;
-
-   for(i=0; i<argc; i++)
-    {
-        items=azColName;
-        count=argc;
-    }
-
-   return 0;
-}
-*/
 
   void setBufferedInput(bool enable) {
     static bool enabled = true;
@@ -86,6 +55,7 @@ void create_db(char db_name[])
       
 
 
+// Refreshing Application menu after each action
 
 void refresh_menu(){
 
@@ -126,6 +96,9 @@ while(1){
 
 getkey=getchar();
 switch(getkey){
+
+
+  // doing appropriate action if key 1 pressed
    case '1':
      system("clear");
      setBufferedInput(true);
@@ -137,6 +110,8 @@ switch(getkey){
       refresh_menu();
       break;
 
+
+// doing appropriate action if key 2 pressed
    case '2':
    system("clear");
    setBufferedInput(true);
@@ -149,17 +124,19 @@ switch(getkey){
    refresh_menu();
      break;
 
+// doing appropriate action if key 3 pressed
    case '3':
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of table: ");
       scanf("%s",table_name);
-      insert_data(table_name,rc,db);
+      insert_data(table_name);
       getchar();
       getchar();
       refresh_menu();
       break;
    
+// doing appropriate action if key 4 pressed
 
    case '4':
      system("clear");
@@ -172,7 +149,7 @@ switch(getkey){
       refresh_menu();
       break;
 
-
+// doing appropriate action if key 5 pressed
        case '5':
      system("clear");
      setBufferedInput(true);
@@ -185,6 +162,7 @@ switch(getkey){
       break;
 
 
+// doing appropriate action if key 6 pressed
     case '6':
      system("clear");
      setBufferedInput(true);
@@ -195,6 +173,9 @@ switch(getkey){
       getchar();
       refresh_menu();
       break;
+
+
+// doing appropriate action if key Q pressed
 
    case 'q':
    system("clear");

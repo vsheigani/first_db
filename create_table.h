@@ -4,6 +4,9 @@
 #include "stdlib.h"
 #include <stdbool.h>
 
+    char **items;
+    int count;
+
 
 // This Header file creates Tables with needed fields and Types 
 
