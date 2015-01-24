@@ -19,6 +19,10 @@ extern sqlite3 *db;
 extern int  rc;
 
 
+
+// Changing global state of terminal so you don't need to 
+// hit enter for entering any key
+
   void setBufferedInput(bool enable) {
     static bool enabled = true;
     static struct termios old;
@@ -35,6 +39,8 @@ extern int  rc;
     }
   }
 
+// Connect or create sqlite3 database with taking name of 
+// the db from user
 void create_db(char db_name[])
 {
    
@@ -70,7 +76,7 @@ void refresh_menu(){
    printf("\033[8;7H%-20s","Press 6 For Select your table data: ");
    printf("\033[9;7H%-20s","Press Q For Quit: ");
 
-}
+
 
 
 

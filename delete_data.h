@@ -2,7 +2,7 @@
 #include "sqlite3.h"
 #include "stdlib.h"
 
-
+// This Header File Delete data from Sqlite3 table
 
 void delete_data(char table_name2[],int rc,sqlite3 *db){
  
@@ -17,11 +17,10 @@ void delete_data(char table_name2[],int rc,sqlite3 *db){
 
       strcpy(sql_p1,"DELETE FROM ");
       strcpy(sql_p2," WHERE ID");
-  //    strcpy(sql_p3,"ID");
       
       sprintf(sql_string,"%s%s%s=%s; ",sql_p1,table_name2,sql_p2,idx);
    
-   //printf("%s",sql_string);
+
    char *sql= sql_string;
    
 

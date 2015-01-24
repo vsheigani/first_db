@@ -2,21 +2,23 @@
 #include "sqlite3.h"
 #include "stdlib.h"
 
+
+// This Header file select data from table and show them in Terminal
+
   void select_data(char table_name2[],int rc,sqlite3 *db)
    {
- //   sqlite3 *db;
+ 
    char *zErrMsg = 0;
- //  int  rc;
+
    char sql_string[700];
    char sql_p1[300],sql_p2[300];
 
 
       strcpy(sql_p1,"SELECT * FROM ");
-     // strcpy(sql_p2,";");
+     
       
       sprintf(sql_string,"%s%s",sql_p1,table_name2);
-   
-   //printf("%s",sql_string);
+
    char *sql= sql_string;
 
 

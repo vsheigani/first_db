@@ -3,6 +3,7 @@
 #include "sqlite3.h"
 #include "stdlib.h"
 
+//This Header File Update data in Sqlite3 table
 
 void update_data(char table_name2[],int rc,sqlite3 *db){
  
