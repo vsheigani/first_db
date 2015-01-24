@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include "callbackh.h"
 
+
+  // This values will be initialized by callback_find function
+
   extern char **items;
   extern int count;
   int rc;
