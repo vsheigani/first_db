@@ -4,8 +4,6 @@
 #include "stdlib.h"
 #include <stdbool.h>
 
-    char **items;
-    int count;
 
 
 // This Header file creates Tables with needed fields and Types 
@@ -16,22 +14,34 @@
     char types[100][5];
     int i;
     int j;
- //   sqlite3 *db;
+
    char *zErrMsg = 0;
- //  int  rc;
+
    char sql_string[700];
    char sql_p1[300],sql_p2[300];
    // Takes number of fields the user wants to create
 
-   printf("How many fields you want to create in this table: ");
+   printf("How many fields you want to create in table \x1b[31m%s\x1b[0m: ",table_name2);
+   printf("\x1b[31m");
    scanf("%d",&j);
+   printf("\x1b[0m");
+    printf("\n");
+
    for ( i = 0; i < j; ++i)
    {
-     printf("Please Enter the name of field you want create in table %s: ",table_name2);
+     printf("Please Enter the name of field you want create in table \x1b[31m%s\x1b[0m: ",table_name2);
+     printf("\x1b[31m");
      scanf("%s", names[i]);
+     printf("\x1b[0m");
 
-     printf("Please enter type of field %s in table %s: ",names[i],table_name2);
+
+
+     printf("Please enter type of field \x1b[31m%s\x1b[0m in table \x1b[31m%s\x1b[0m",names[i],table_name2);
+      printf("\nChoose between standard types in sqlite3 (\x1b[31mnull\x1b[0m,\x1b[31mint\x1b[0m,\x1b[31mtext\x1b[0m,\x1b[31mreal\x1b[0m,\x1b[31mblob\x1b[0m): ");
+     printf("\x1b[31m");
      scanf("%s", types[i]);
+     printf("\x1b[0m");
+     printf("\n");
    }
 
    sprintf(sql_string,"CREATE TABLE %s (" ,table_name2);
@@ -57,7 +67,7 @@
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
    if( rc != SQLITE_OK )
    {
-         fprintf(stderr, "SQL error: %s\n", zErrMsg);
+         fprintf(stderr, "SQL error: \x1b[31m%s\x1b[0m\n", zErrMsg);
       sqlite3_free(zErrMsg);
    }
    else

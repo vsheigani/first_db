@@ -1,12 +1,14 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "sqlite3.h"
-#include "string.h"
-#include "call_help.h"
 #include <stdbool.h>
 #include <termios.h>
 #include <limits.h>
 #include <unistd.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "sqlite3.h"
+#include "string.h"
+#include "callbackh.h"
+#include "create_db.h"
+#include "call_help.h"
 #include "insert_data.h"
 #include "create_table.h"
 #include "select_data.h"
@@ -15,10 +17,9 @@
 
 
 
-extern sqlite3 *db;
-extern int  rc;
 
-
+sqlite3 *db;
+int  rc ;
 
 // Changing global state of terminal so you don't need to 
 // hit enter for entering any key
@@ -39,25 +40,7 @@ extern int  rc;
     }
   }
 
-// Connect or create sqlite3 database with taking name of 
-// the db from user
-void create_db(char db_name[])
-{
-   
 
-   rc = sqlite3_open(db_name, &db);
-   if( rc )
-      {
-      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-      exit(0);
-      }
-   else
-      {
-         fprintf(stdout, "Database %s opened successfully\n",db_name);
-         
-      }
-   }
-  
       
 
 
@@ -76,17 +59,21 @@ void refresh_menu(){
    printf("\033[8;7H%-20s","Press 6 For Select your table data: ");
    printf("\033[9;7H%-20s","Press Q For Quit: ");
 
-
+}
 
 
 
 int main(int argc, char const *argv[])
 {
+      FILE *file;
       int status=0;
       char getkey;
       char table_name[100];
    //   char table_name2[100];
-      char db_name[120];
+      char db_name[20];
+      char dbn[30];
+      char txt[300];
+      char command[50];
    
 
    if (argv[1]!= NULL && strcmp(argv[1],"-h")== 0)
@@ -108,9 +95,50 @@ switch(getkey){
    case '1':
      system("clear");
      setBufferedInput(true);
-      printf("Please enter the name of database: ");
+     strcpy(dbn,"");
+     if(db != NULL)
+     {
+       sqlite3_close(db);
+       db = NULL;
+     }
+     strcpy(command,"ls *.db");
+     printf("List of avliable Databases:\n");
+   
+     system("cd ~/gitdir/first_db");
+     
+     FILE *p = popen(command, "w");
+     fgets(txt,sizeof(txt),p);
+     pclose(p); 
+     
+
+     printf("\x1b[31m%s\x1b[0m\n\n",txt);
+    
+   
+
+      printf("Please enter the name of database (wiothout extension): ");
+      printf("\x1b[31m");
       scanf("%s",db_name);
-      create_db(db_name);
+      printf("\x1b[0m");
+      strcpy(dbn,db_name);
+      strcat(dbn,".db");
+          create_db(dbn);
+
+    if((fopen(dbn,"r"))!=NULL)
+        {
+            // database exists
+          if( !rc ){
+            printf("Database \x1b[31m%s\x1b[0m exists, so connected.\n", dbn);
+
+          }
+        }
+    else
+        {
+            //database not found
+          if( !rc )
+            printf("Database \x1b[31m%s\x1b[0m doesn't exist, so created.\n", dbn);
+        }
+
+  
       getchar();
       getchar();
       refresh_menu();
@@ -123,7 +151,11 @@ switch(getkey){
    setBufferedInput(true);
    
    printf("Plase enter the name of table: ");
+   printf("\x1b[31m");
    scanf("%s",table_name);
+   printf("\x1b[0m");
+        printf("\n");
+
    create_table(table_name,rc,db);
    getchar();
       getchar();
@@ -135,11 +167,16 @@ switch(getkey){
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of table: ");
+       printf("\x1b[31m");
       scanf("%s",table_name);
+       printf("\x1b[0m");
+            printf("\n");
+
       insert_data(table_name);
       getchar();
       getchar();
       refresh_menu();
+
       break;
    
 // doing appropriate action if key 4 pressed
@@ -148,7 +185,11 @@ switch(getkey){
      system("clear");
      setBufferedInput(true);
       printf("Please enter the name of table that you want to delete data: ");
+       printf("\x1b[31m");
       scanf("%s",table_name);
+       printf("\x1b[0m");
+            printf("\n");
+
       delete_data(table_name,rc,db);
       getchar();
       getchar();
@@ -159,8 +200,12 @@ switch(getkey){
        case '5':
      system("clear");
      setBufferedInput(true);
-      printf("Please enter the name of database: ");
+      printf("Please enter the name of table to update data \x1b[31m%s\x1b[0m database: ", db_name);
+        printf("\x1b[31m");
       scanf("%s",table_name);
+       printf("\x1b[0m");
+            printf("\n");
+
       update_data(table_name,rc,db);
       getchar();
       getchar();
@@ -172,8 +217,12 @@ switch(getkey){
     case '6':
      system("clear");
      setBufferedInput(true);
-      printf("Please enter the name of table to select data in %s database: ", db_name);
+      printf("Please enter the name of table to select data in \x1b[31m%s\x1b[0m database: ", db_name);
+        printf("\x1b[31m");
       scanf("%s",table_name);
+       printf("\x1b[0m");
+            printf("\n");
+
       select_data(table_name,rc,db);
       getchar();
       getchar();
