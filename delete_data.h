@@ -4,25 +4,21 @@
 
 // This Header File Delete data from Sqlite3 table
 
-void delete_data(char table_name2[],int rc,sqlite3 *db){
+void delete_data(char table_name[]){
  
    char *zErrMsg = 0;
-   char sql_string[700];
-   char sql_p1[100],sql_p2[100];
-   char idx[3];
+   char sql[700];
+   char idx[30];
 
 
-   printf("Please enter id to delete: ");
-   scanf("%s",idx);
-
-      strcpy(sql_p1,"DELETE FROM ");
-      strcpy(sql_p2," WHERE ID");
-      
-      sprintf(sql_string,"%s%s%s=%s; ",sql_p1,table_name2,sql_p2,idx);
+   printf("Which \x1b[31mID\x1b[0m you want to delete? ");
+  
+      printf("\x1b[31m");
+      scanf("%s", idx);
+      printf("\x1b[0m");
    
-
-   char *sql= sql_string;
-   
+      sprintf(sql,"DELETE FROM %s WHERE ID=%s",table_name,idx);
+     
 
    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
    if( rc != SQLITE_OK )
@@ -32,6 +28,6 @@ void delete_data(char table_name2[],int rc,sqlite3 *db){
    }
    else
    {
-      fprintf(stdout, "Data deleted succefully\n");
+      fprintf(stdout, "Data of ID=\x1b[31m%s\x1b[0m Deleted succefully.\n",idx);
    }
 }

@@ -8,7 +8,7 @@
 
 // This Header file creates Tables with needed fields and Types 
 
-   void create_table(char table_name2[],int rc,sqlite3 *db)
+   void create_table(char table_name2[])
    {
     char names[100][5];
     char types[100][5];
@@ -21,7 +21,8 @@
    char sql_p1[300],sql_p2[300];
    // Takes number of fields the user wants to create
 
-   printf("How many fields you want to create in table \x1b[31m%s\x1b[0m: ",table_name2);
+   printf("Note:\x1b[31mID\x1b[0m Field is manadatory due to further UPDATE and DELETE queries. So it will add automatically.\n");
+   printf("How many fields you want to create in table \x1b[31m%s\x1b[0m (Except \x1b[31mID\x1b[0m Field): ",table_name2);
    printf("\x1b[31m");
    scanf("%d",&j);
    printf("\x1b[0m");
@@ -45,7 +46,7 @@
    }
 
    sprintf(sql_string,"CREATE TABLE %s (" ,table_name2);
-
+strcat(sql_string,"id int,");
       for ( i = 0; i < j; ++i)
    {
     strcat(sql_string,names[i]);
@@ -74,4 +75,4 @@
    {
       fprintf(stdout, "Table created successfully\n");
    }
-   }
+ }

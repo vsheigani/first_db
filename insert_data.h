@@ -19,7 +19,9 @@ bool isInt(char *string){
    //     *num = (int)n;
         return true;
     }
-    return false;
+    else{
+         return false;
+        }
 }
 
 //This function inserts data into table
@@ -30,18 +32,17 @@ void insert_data(char table_name[])
    char sql_string[600];
    char sql_string2[600];
    char *zErrMsg = 0;
-  // char *sql_2;
-   char *sql;
    sqlite3_stmt * stmt;
    char *col;
    char stemp[50];
    char sstr[150];
-   char data[100][count];
+
+ 
 
 // This part of function execute a select command in sqlite and
 // It calls callback_find func and so it will store the table items 
 // count of items in two variables 
-// sprintf(sstr, "SELECT sql FROM sqlite_master;");
+
 // sprintf(sstr, ".schema %s",table_name);
 // strcat(sstr,"'");
 // strcat(sstr,"table");
@@ -49,15 +50,17 @@ void insert_data(char table_name[])
 // sprintf(stemp,"ORDER BY %s;",table_name);
 
 // strcat(sstr,stemp);
-  sprintf(sstr,"pragma table_info(%s);",table_name);
 
 
-//  sprintf(sstr,"select * from %s;",table_name);
-  printf("%s\n",sstr );
-  sqlite3_prepare_v2( db, sstr, -1, &stmt, NULL );
+  //sprintf(sstr2,"pragma table_info(%s);",table_name);
+   sprintf(sstr, "SELECT * FROM %s;",table_name);
+  sqlite3_prepare( db, sstr, sizeof(sstr), &stmt, NULL );
   sqlite3_step( stmt );
-  count = sqlite3_column_count(stmt);
+ // printf("%s\n",sstr2 );
 
+
+  count = sqlite3_column_count(stmt);
+  char data[count][20];
 
 
    //sprintf(sql_string2,"select * from %s;",table_name);
@@ -67,7 +70,7 @@ void insert_data(char table_name[])
   // printf("%s\n", sql_string2);
 
   //   rc = sqlite3_exec(db, sql_string2, callback_find, 0, &zErrMsg);
-   printf("%d\n",count);
+   printf("This table has \x1b[31m%d\x1b[0m Columns.\n\n",count);
 
 //   if( rc != SQLITE_OK )
  //  {
@@ -79,29 +82,24 @@ void insert_data(char table_name[])
   
   
    // printf("yes\n");
-              {
-   for ( k = -1; k < count+3; ++k)
-   {
-    col = (char *)sqlite3_column_text( stmt, k);
-    printf("Please Insert data for %s: ",col);
+        
+   for ( k = 0 ; k < count ; k++)
+   { 
+
+    printf("Please Insert data for \x1b[31m%s\x1b[0m: ",(char *)sqlite3_column_name( stmt, k));
+    printf("\x1b[31m");
     scanf("%s", data[k]);
-    printf("\n");
+    printf("\x1b[0m");
+    
+    
    }
+
   
 // This part of code creates an sql string to insert data and execute it
 
-  sprintf(sql_string,"INSERT INTO %s (",table_name);
-  for (k = 0; k < count; ++k)
-  {
-   // strcat(sql_string,items[k]);
-    if (k < count-1)
-    {
-    strcat(sql_string,",");
-    }
-
-  }
+  sprintf(sql_string,"INSERT INTO %s ",table_name);
  
-  strcat(sql_string, ") VALUES (");
+  strcat(sql_string, "VALUES (");
 
   for (k = 0; k < count; ++k)
   {
@@ -118,14 +116,14 @@ void insert_data(char table_name[])
     {
     strcat(sql_string,",");
     }
-   }
+  }
   strcat(sql_string, "); ");
-  sql= sql_string;
+  //printf("%s\n", sql_string);
 
- 
+
    /* Execute SQL statement */
 
-   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+   rc = sqlite3_exec(db, sql_string, callback, 0, &zErrMsg);
    if( rc != SQLITE_OK )
    {
     printf("%s\n",sql_string );
@@ -134,9 +132,9 @@ void insert_data(char table_name[])
    }
    else
    {
+    printf("\n");
       fprintf(stdout, "Data Inserted Succefully\n");
    }
    
- }
 sqlite3_finalize(stmt);
 } 

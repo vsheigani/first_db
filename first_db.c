@@ -72,7 +72,7 @@ int main(int argc, char const *argv[])
    //   char table_name2[100];
       char db_name[20];
       char dbn[30];
-      char txt[300];
+      char txt[512];
       char command[50];
    
 
@@ -101,17 +101,20 @@ switch(getkey){
        sqlite3_close(db);
        db = NULL;
      }
-     strcpy(command,"ls *.db");
+
      printf("List of avliable Databases:\n");
    
      system("cd ~/gitdir/first_db");
      
-     FILE *p = popen(command, "w");
-     fgets(txt,sizeof(txt),p);
+     FILE *p = popen("ls *.db","r");
+     printf("\x1b[31m");
+     while ( fgets( txt, 512, p ) != NULL ) {
+     printf("%s", txt );
+     }
+     printf("\x1b[0m");
      pclose(p); 
      
-
-     printf("\x1b[31m%s\x1b[0m\n\n",txt);
+        printf("\n");
     
    
 
@@ -121,25 +124,18 @@ switch(getkey){
       printf("\x1b[0m");
       strcpy(dbn,db_name);
       strcat(dbn,".db");
-          create_db(dbn);
 
-    if((fopen(dbn,"r"))!=NULL)
+    if(fopen(dbn,"r"))
         {
-            // database exists
-          if( !rc ){
             printf("Database \x1b[31m%s\x1b[0m exists, so connected.\n", dbn);
-
-          }
         }
     else
         {
-            //database not found
-          if( !rc )
             printf("Database \x1b[31m%s\x1b[0m doesn't exist, so created.\n", dbn);
         }
+   create_db(dbn);
+getchar();
 
-  
-      getchar();
       getchar();
       refresh_menu();
       break;
@@ -156,9 +152,10 @@ switch(getkey){
    printf("\x1b[0m");
         printf("\n");
 
-   create_table(table_name,rc,db);
-   getchar();
+   create_table(table_name);
       getchar();
+      getchar();
+      printf("\x1b[0m");
    refresh_menu();
      break;
 
@@ -189,10 +186,11 @@ switch(getkey){
       scanf("%s",table_name);
        printf("\x1b[0m");
             printf("\n");
-
-      delete_data(table_name,rc,db);
+      select_data(table_name);
+      printf("\n\n");
+      delete_data(table_name);
       getchar();
-      getchar();
+     getchar();
       refresh_menu();
       break;
 
@@ -206,9 +204,9 @@ switch(getkey){
        printf("\x1b[0m");
             printf("\n");
 
-      update_data(table_name,rc,db);
+      update_data(table_name);
       getchar();
-      getchar();
+getchar();
       refresh_menu();
       break;
 
@@ -223,9 +221,9 @@ switch(getkey){
        printf("\x1b[0m");
             printf("\n");
 
-      select_data(table_name,rc,db);
+      select_data(table_name);
       getchar();
-      getchar();
+   getchar();
       refresh_menu();
       break;
 

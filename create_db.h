@@ -10,7 +10,7 @@
 void create_db(char db_name[])
 {
    rc = sqlite3_open(db_name, &db);
-   if( rc )
+   if( rc != SQLITE_OK)
       {
       fprintf(stderr, "Can't open or create database: %s\n", sqlite3_errmsg(db));
       exit(0);

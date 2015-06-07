@@ -5,7 +5,7 @@
 
 // This Header file select data from table and show them in Terminal
 
-  void select_data(char table_name2[],int rc,sqlite3 *db)
+  void select_data(char table_name2[])
    {
  
    char *zErrMsg = 0;
@@ -32,7 +32,7 @@
    }
    else
    {
-      fprintf(stdout, "Table Selected succefully\n");
+      fprintf(stdout, "Table Data Selected succefully\n");
    }
    
    }
