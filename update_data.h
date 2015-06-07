@@ -19,7 +19,7 @@ void update_data(char table_name[]){
 
    printf("Please enter Field you want to update in ID=\x1b[31m%s\x1b[0m: ",idx);
        printf("\x1b[31m"); 
-      scanf("%s", field);na
+      scanf("%s", field);
       printf("\x1b[0m");
 
    printf("Please enter Field New data to update in ID=\x1b[31m%s\x1b[0m Field=\x1b[31m%s\x1b[0m: ",idx,field);
